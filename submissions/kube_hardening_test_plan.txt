@@ -1,0 +1,10 @@
+How will you test the changes?
+The change will be tested in a non-production environment such as a test cluster, which is mimicing the production cluster (doesn't exist yet though). 
+Canary testing cannot be applied here as at this point there is no production cluster, hence no traffic can be redirected. 
+Since we are running no service mash and no production cluster, changes aren't rolled out incrementally.
+Changes can be saefly rolled back by keeping the older cluster configuration version (e.g. using version contorl)
+
+How will you ensure the changes don't negatively affect your cluster?
+The change should be tested in a non-production cluster. Once the change is applied, you should monitor metrics using your observability and monitoring techniques like Prometheus and Grafana
+Roll back the confugation in case of any negative affects. 
+source: https://learn.udacity.com/nanodegrees/nd064/parts/cd0311/lessons/95cb701b-1907-4ef9-b67b-a2becc2ff8a3/concepts/ea1552c2-3263-473a-ba6d-f79db735fbc8
