@@ -1,0 +1,60 @@
+Docker Threat Modeling
+Given Docker's system components and the STRIDE framework, identify five potential threats that may arise.
+
+- Spoofing: The traffic between the Docker client and the Docker daemon or registry can be intercepted and spoofed by a malicious actor, leading to unauthorized access or actions
+
+- Information Disclosure: The Docker client might expose sensitive information, such as secrets hardcoded in configuration files, during its communication with the daemon or registry. This could lead to the compromise of Dockerfile security and overall container security.
+
+- Tampering: Daemon configuration may be altered by a compromised client or other methods, leading to misconfiguration and potential security vulnerabilities.
+
+- Elevation of Privilege: Incorrect daemon configurations can allow containers to run as root or with elevated privileges, compromising the host's security and potentially allowing unauthorized access to other containers.
+
+- Denial of Service: Over-allocation of daemon memory or improper restrictions on content size can lead to DoS attacks, where legitimate users are unable to access the Docker services due to overwhelming demand or crashes.
+
+source https://learn.udacity.com/nanodegrees/nd064/parts/cd0311/lessons/b3ba0cae-c001-4e5f-812f-b868638664b3/concepts/3932dacf-592b-4db8-9683-846fb7cad39a
+
+Kubernetes Threat Modeling
+Given Kubernetes' system components and the STRIDE framework, identify five potential threats that may arise.
+
+- Spoofing the API server (Control Plane): The API server acts as the central way to interact with the Kubernetes cluster. If calls to the API server can be spoofed by a malicious attacker, this would allow unauthorized access to the cluster
+
+- Repudiation the API server (Control Plane): Unauthorized changes to the Kubernetes API server could lead to malicious modifcations without traceability
+
+- Information Disclosure (Node Runtime): If kubelet's configuration or the connection between the API server and kubelet is insecure, sensitive information could be exposed
+
+- Elevation of Privilege (Control Plane and Node Runtime): Using the privileged flag in Kubernetes can allow containers to access host resources unrestrictedly, leading to potential elevation of privilege
+
+- Tampering (etcd): If an attacker can tamper with the data stored in etcd, they could modify cluster configurations, including pod specifications
+
+
+Docker-bench Run Results and Analysis
+From the failed findings, select and document 3 findings from the Docker-bench results that you want to harden based on the 5 attack surface areas you identified in Step 1. At least 1 of the 3 hardened findings should be different from the ones mentioned in the exercise (i.e. 5.10, 5.14, and 5.22).
+
+[FAIL] 3.19 Ensure that /etc/default/docker file ownership is set to root:root (Automated)
+You should execute the following command
+chown root:root /etc/default/docker
+source: https://github.com/udacity/nd064-c3-microservices-security-project-starter/blob/master/starter/docs/CIS_Docker_Benchmark_v1.2.0.pdf
+-> needed to copy configuration first: cp /etc/sysconfig/docker /etc/default/docker
+
+
+[FAIL] 3.22 Ensure that /etc/default/docker file permissions are set to 644 or more restrictive (Automated)
+You should execute the following command:
+chmod 644 /etc/default/docker
+source: https://github.com/udacity/nd064-c3-microservices-security-project-starter/blob/master/starter/docs/CIS_Docker_Benchmark_v1.2.0.pdf
+-> needed to copy configuration first: cp /etc/sysconfig/docker /etc/default/docker
+
+
+[FAIL] 5.10 Ensure that the memory usage for container is limited (Automated)
+You should run the container with only as much memory as it requires by using the --
+memory argument.
+For example, you could run a container using the command below:
+docker run --interactive --tty --memory 256m centos /bin/bash
+source: https://github.com/udacity/nd064-c3-microservices-security-project-starter/blob/master/starter/docs/CIS_Docker_Benchmark_v1.2.0.pdf
+->docker run --interactive --tty --memory 256m opensuse/leap:latest /bin/bash
+
+
+[FAIL] 5.25 Ensure that the container is restricted from acquiring additional privileges (Automated)
+You should start your container with the options below:
+docker run --rm -it --security-opt=no-new-privileges ubuntu bash
+source: https://github.com/udacity/nd064-c3-microservices-security-project-starter/blob/master/starter/docs/CIS_Docker_Benchmark_v1.2.0.pdf
+->docker run --interactive --tty --memory 256m --security-opt=no-new-privileges opensuse/leap:latest /bin/bash

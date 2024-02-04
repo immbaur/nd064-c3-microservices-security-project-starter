@@ -10,11 +10,12 @@ LABEL maintainer="nick.reva@snap.com"
 LABEL version="V1"
 
 # create a directory to work in
-RUN mkdir udacity \
+RUN mkdir -p udacity \
     && cd udacity
 
 #install zypper 
 RUN zypper refs && zypper refresh
 
 #add local user
-USER $SEC_USER
+RUN useradd -ms /bin/bash udacity
+USER udacity
