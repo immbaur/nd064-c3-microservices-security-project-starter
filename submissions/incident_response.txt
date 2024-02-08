@@ -1,0 +1,32 @@
+Incident Report
+
+Date: February 7th, 2024
+Environment: Production
+
+Incident commander name: Immanuel Baur
+
+Executive Summary of what happened:
+Unauthorized crypto mining activities were detected within our infrastructure, indicating a security breach. 
+Attackers successfully deployed several crypto mining containers using our CPU resources.
+
+Summary of what was affected:
+The breach affected our Kubernetes cluster, where attackers gained unauthorized access and deployed crypto mining containers. 
+The specific containers identified were associated with mining activities, utilizing significant CPU resources and potentially compromising system performance and security.
+
+Summary of the impact:
+The impact of this incident was significant, primarily on our CPU resources, which were heavily utilized by the unauthorized mining activities. 
+This not only degraded system performance but also posed a serious security risk, indicating vulnerabilities in our system that were exploited by the attackers.
+
+Summary of the remediation steps:
+Immediate action was taken to mitigate the incident, including the deletion of the unauthorized pods using the kubectl command. 
+Monitoring tools were then employed to observe the reduction in CPU usage, confirming the successful removal of the mining containers. 
+Additional security measures were implemented to prevent future breaches.
+
+Summary of lessons learned:
+This incident highlighted the necessity of enhancing our security posture, particularly regarding admission control and monitoring. 
+Implementing stricter admission controls can prevent the deployment of unauthorized containers, while improved monitoring can facilitate the early detection of unusual activities. 
+Adjusting priority levels in monitoring tools can ensure that critical alerts are promptly addressed, enhancing our overall security framework.
+
+
+
+source: https://chat.openai.com/ was used to re-write the sentences in a more formal way
